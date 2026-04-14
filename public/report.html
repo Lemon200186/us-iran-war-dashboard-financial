@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>美国-伊朗战争晨报导出</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="report-body">
+    <div class="page-shell report-shell">
+      <header class="hero report-hero">
+        <div>
+          <p class="eyebrow">Morning Brief Export</p>
+          <h1>晨报导出中心</h1>
+          <p class="hero-copy">
+            选择特定日期，生成该日视角下的战争快照，并支持打印为 PDF 或导出 PNG 截图版晨报。
+          </p>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-card">
+            <span>报告日期</span>
+            <strong id="report-date-label">-</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="toolbar panel wide report-controls no-print">
+        <label class="toolbar-group">
+          <span class="toolbar-label">选择日期</span>
+          <input id="report-date-input" class="date-input" type="date" />
+        </label>
+        <div class="toolbar-group">
+          <span class="toolbar-label">页面默认周期</span>
+          <span class="subtle">各面板可单独调整</span>
+        </div>
+        <div class="toolbar-actions">
+          <button class="toolbar-button" id="load-report-button" type="button">生成晨报</button>
+          <button class="toolbar-button" id="print-report-button" type="button">导出 PDF</button>
+          <button class="toolbar-button" id="capture-report-button" type="button">导出截图</button>
+          <a class="toolbar-link" href="/">返回实时看板</a>
+        </div>
+      </section>
+
+      <main id="report-canvas" class="report-canvas">
+        <section class="panel wide">
+          <div class="panel-head">
+            <h2 id="report-title">晨报加载中</h2>
+            <span id="report-generated-at" class="subtle"></span>
+          </div>
+          <p id="report-overview" class="overview-text"></p>
+          <div class="summary-grid" id="report-summary"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div class="panel-head-group">
+              <h2>金融与利率</h2>
+            </div>
+            <div class="panel-tools" data-panel-tools="markets">
+              <div class="range-switch">
+                <button class="range-chip is-active" type="button" data-panel-range="markets" data-range="conflict">冲突至今</button>
+                <button class="range-chip" type="button" data-panel-range="markets" data-range="30d">近30天</button>
+                <button class="range-chip" type="button" data-panel-range="markets" data-range="7d">近7天</button>
+                <button class="range-chip" type="button" data-panel-range="markets" data-range="custom">自定义</button>
+              </div>
+              <div class="custom-range" data-custom-range="markets" hidden>
+                <input class="date-input" type="date" data-custom-start="markets" />
+                <span class="subtle">至</span>
+                <input class="date-input" type="date" data-custom-end="markets" />
+                <button class="toolbar-button" type="button" data-custom-apply="markets">应用</button>
+              </div>
+              <span class="subtle" data-range-label="markets">当前按冲突至今展示</span>
+            </div>
+          </div>
+          <div class="metrics-grid" id="report-markets"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div class="panel-head-group">
+              <h2>基金快照</h2>
+            </div>
+            <div class="panel-tools" data-panel-tools="funds">
+              <div class="range-switch">
+                <button class="range-chip is-active" type="button" data-panel-range="funds" data-range="conflict">冲突至今</button>
+                <button class="range-chip" type="button" data-panel-range="funds" data-range="30d">近30天</button>
+                <button class="range-chip" type="button" data-panel-range="funds" data-range="7d">近7天</button>
+                <button class="range-chip" type="button" data-panel-range="funds" data-range="custom">自定义</button>
+              </div>
+              <div class="custom-range" data-custom-range="funds" hidden>
+                <input class="date-input" type="date" data-custom-start="funds" />
+                <span class="subtle">至</span>
+                <input class="date-input" type="date" data-custom-end="funds" />
+                <button class="toolbar-button" type="button" data-custom-apply="funds">应用</button>
+              </div>
+              <span class="subtle" data-range-label="funds">当前按冲突至今展示</span>
+            </div>
+          </div>
+          <div class="funds-grid" id="report-funds"></div>
+        </section>
+
+        <section class="panel wide">
+          <div class="panel-head">
+            <h2>时间线</h2>
+          </div>
+          <div class="timeline-list" id="report-timeline"></div>
+        </section>
+
+        <section class="panel wide">
+          <div class="panel-head">
+            <div class="panel-head-group">
+              <h2>累计伤亡曲线</h2>
+              <span class="subtle">已知公开口径累计</span>
+            </div>
+            <div class="panel-tools" data-panel-tools="casualties">
+              <div class="range-switch">
+                <button class="range-chip is-active" type="button" data-panel-range="casualties" data-range="conflict">冲突至今</button>
+                <button class="range-chip" type="button" data-panel-range="casualties" data-range="30d">近30天</button>
+                <button class="range-chip" type="button" data-panel-range="casualties" data-range="7d">近7天</button>
+                <button class="range-chip" type="button" data-panel-range="casualties" data-range="custom">自定义</button>
+              </div>
+              <div class="custom-range" data-custom-range="casualties" hidden>
+                <input class="date-input" type="date" data-custom-start="casualties" />
+                <span class="subtle">至</span>
+                <input class="date-input" type="date" data-custom-end="casualties" />
+                <button class="toolbar-button" type="button" data-custom-apply="casualties">应用</button>
+              </div>
+              <span class="subtle" data-range-label="casualties">当前按冲突至今展示</span>
+            </div>
+          </div>
+          <div id="report-casualty-curve" class="casualty-chart"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>核心解释</h2>
+          </div>
+          <div class="insight-list" id="report-insights"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>TOP5 新闻</h2>
+          </div>
+          <div class="news-list" id="report-news"></div>
+        </section>
+      </main>
+    </div>
+
+    <aside id="source-drawer" class="source-drawer" hidden>
+      <div class="source-drawer-card">
+        <button type="button" class="source-drawer-close" data-drawer-close>关闭</button>
+        <p class="eyebrow">Confirmed Source</p>
+        <h2 data-drawer-title>来源卡片</h2>
+        <p class="subtle" data-drawer-meta></p>
+        <div class="drawer-body" data-drawer-body></div>
+        <a class="toolbar-button source-drawer-link" data-drawer-link target="_blank" rel="noreferrer">打开原文</a>
+      </div>
+    </aside>
+
+    <script type="module" src="/report.js"></script>
+  </body>
+</html>

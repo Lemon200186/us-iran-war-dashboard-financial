@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Console Prototype</title>
+    <link rel="stylesheet" href="/life-console-prototype.css" />
+  </head>
+  <body>
+    <div class="glow glow-left"></div>
+    <div class="glow glow-right"></div>
+
+    <main class="page-shell">
+      <header class="intro">
+        <p class="eyebrow">Life Console iOS Prototype</p>
+        <h1>Four Core Surfaces</h1>
+        <p class="intro-copy">
+          这一版把 `Today`、`Coach`、`Journal`、`Progress` 四个核心页面统一到一套可浏览的高保真原型里。整体是私人指挥室气质，行动区有控制面板感，复盘区像一份结案记录。
+        </p>
+        <div class="intro-links">
+          <a href="#today-card">Today</a>
+          <a href="#coach-card">Coach</a>
+          <a href="#journal-card">Journal</a>
+          <a href="#progress-card">Progress</a>
+        </div>
+      </header>
+
+      <section class="gallery">
+        <article class="phone-card" id="today-card">
+          <div class="phone-frame">
+            <div class="status-bar">
+              <span>9:41</span>
+              <span>Today</span>
+              <span>84%</span>
+            </div>
+            <div class="screen today-screen">
+              <header class="screen-head">
+                <div>
+                  <p class="kicker">Dual-Line Control</p>
+                  <h2>Today</h2>
+                </div>
+                <div class="orb">
+                  <strong>82</strong>
+                  <span>Control</span>
+                </div>
+              </header>
+
+              <section class="hero-note">
+                <strong>Today's line:</strong>
+                <p>Protect sleep. Ship one onboarding output. Keep the rest secondary.</p>
+              </section>
+
+              <section class="primary-card project">
+                <div class="topline">
+                  <span>Push Today</span>
+                  <span class="badge cold">Visible Output</span>
+                </div>
+                <h3>Ship onboarding wireframe state 1</h3>
+                <p>Accepted proof: one finished screen with three labeled states and one export.</p>
+                <div class="meta-pair">
+                  <div>
+                    <small>Risk</small>
+                    <strong>Planning drift</strong>
+                  </div>
+                  <div>
+                    <small>Deadline</small>
+                    <strong>21:30</strong>
+                  </div>
+                </div>
+                <div class="actions">
+                  <button type="button" class="solid-btn" data-toast="Mission armed. Stay with one shippable state.">Start</button>
+                  <button type="button" class="ghost-btn" data-panel-toggle="today-proof">Log proof</button>
+                </div>
+                <div class="inline-panel" id="today-proof" hidden>
+                  <div class="panel-label">Visible Output Proof</div>
+                  <ul>
+                    <li>One screen finished</li>
+                    <li>Three states labeled</li>
+                    <li>Saved before 21:30</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section class="primary-card habit">
+                <div class="topline">
+                  <span>Protect Today</span>
+                  <span class="badge warm">Hard</span>
+                </div>
+                <h3>Protect the 23:00 sleep boundary</h3>
+                <p>Wind-down starts at 22:15. Missing this weakens tomorrow's execution layer.</p>
+                <div class="actions">
+                  <button type="button" class="solid-btn dark" data-toast="Sleep protection mode armed.">Start routine</button>
+                  <button type="button" class="ghost-btn">Why this matters</button>
+                </div>
+              </section>
+
+              <section class="two-up">
+                <div class="mini-card">
+                  <div class="panel-label">Hard Commitments</div>
+                  <ul>
+                    <li>Podcast 20 min</li>
+                    <li>Read 1 chapter + ebook</li>
+                    <li>Paper journal tomorrow</li>
+                  </ul>
+                </div>
+                <div class="mini-card">
+                  <div class="panel-label">Soft Commitments</div>
+                  <ul>
+                    <li>Exercise done</li>
+                    <li>French pending</li>
+                    <li>In-app journal tonight</li>
+                  </ul>
+                </div>
+              </section>
+
+              <nav class="tabbar">
+                <a href="#today-card" class="active">Today</a>
+                <a href="#coach-card">Coach</a>
+                <a href="#journal-card">Journal</a>
+                <a href="#progress-card">Progress</a>
+              </nav>
+            </div>
+          </div>
+          <div class="caption">
+            <h3>Today</h3>
+            <p>双主线首页：先推项目，再保底线，其他任务压成次级层。</p>
+          </div>
+        </article>
+
+        <article class="phone-card" id="coach-card">
+          <div class="phone-frame">
+            <div class="status-bar">
+              <span>11:06</span>
+              <span>Coach</span>
+              <span>76%</span>
+            </div>
+            <div class="screen coach-screen">
+              <header class="screen-head">
+                <div>
+                  <p class="kicker">AI Action Console</p>
+                  <h2>Coach</h2>
+                </div>
+                <div class="chip">
+                  <strong>LIVE</strong>
+                  <span>Priority</span>
+                </div>
+              </header>
+
+              <section class="control-deck">
+                <div class="topline">
+                  <span>Project Action</span>
+                  <span class="badge cold">High Leverage</span>
+                </div>
+                <h3>Ship onboarding wireframe state 1</h3>
+                <p>This is the fastest move that improves today's side-project result.</p>
+                <div class="meta-pair">
+                  <div>
+                    <small>Risk</small>
+                    <strong>Drifting into planning</strong>
+                  </div>
+                  <div>
+                    <small>Window</small>
+                    <strong>Now to 21:30</strong>
+                  </div>
+                </div>
+                <div class="actions">
+                  <button type="button" class="solid-btn" data-toast="Execution mode armed. Stay with the one visible deliverable.">Start Now</button>
+                  <button type="button" class="ghost-btn" data-panel-toggle="coach-why">Why this</button>
+                </div>
+                <div class="inline-panel" id="coach-why" hidden>
+                  <div class="panel-label">Why This Move</div>
+                  <p>Because it produces visible side-project progress today, reduces ambiguity, and keeps the mission shippable before the late-day collapse zone.</p>
+                </div>
+                <button type="button" class="inline-link" data-jump="takeover-box">Take Over Today</button>
+              </section>
+
+              <section class="floor-row">
+                <div class="floor-box">
+                  <div class="panel-label">Floor Action</div>
+                  <strong>Protect sleep boundary</strong>
+                  <p>Status: at risk</p>
+                </div>
+                <div class="floor-box">
+                  <div class="panel-label">Today Record</div>
+                  <strong>Mission not started</strong>
+                  <p>Exercise done. Reading pending.</p>
+                </div>
+              </section>
+
+              <section class="judgement-box">
+                <div class="topline">
+                  <span>AI Judgement</span>
+                  <span class="badge neutral">Measured</span>
+                </div>
+                <p>Task size is slightly too large. Best move is still to ship one state before opening new branches.</p>
+              </section>
+
+              <section class="takeover-box" id="takeover-box">
+                <div class="topline">
+                  <span>Take Over Today</span>
+                  <span class="signal"></span>
+                </div>
+                <p>You are better off entering takeover mode now.</p>
+                <button type="button" class="solid-btn steel" data-jump="journal-card">Enter Take Over</button>
+              </section>
+
+              <nav class="tabbar">
+                <a href="#today-card">Today</a>
+                <a href="#coach-card" class="active">Coach</a>
+                <a href="#journal-card">Journal</a>
+                <a href="#progress-card">Progress</a>
+              </nav>
+            </div>
+          </div>
+          <div class="caption">
+            <h3>Coach</h3>
+            <p>行动优先，解释靠近动作，接管入口双重存在但不过度戏剧化。</p>
+          </div>
+        </article>
+
+        <article class="phone-card" id="journal-card">
+          <div class="phone-frame">
+            <div class="status-bar">
+              <span>21:52</span>
+              <span>Journal</span>
+              <span>63%</span>
+            </div>
+            <div class="screen journal-screen">
+              <header class="screen-head">
+                <div>
+                  <p class="kicker">Emotional Release + Diagnosis</p>
+                  <h2>Journal</h2>
+                </div>
+                <div class="chip warm-chip">
+                  <strong>DAILY</strong>
+                  <span>Active</span>
+                </div>
+              </header>
+
+              <section class="journal-card">
+                <div class="topline">
+                  <span>In-App Daily Journal</span>
+                  <span class="badge warm">Tonight</span>
+                </div>
+                <p class="journal-prompt">What actually blocked execution today: task size, energy, emotion, or avoidance?</p>
+                <div class="tag-row">
+                  <button type="button" class="tag">Task too big</button>
+                  <button type="button" class="tag active">Avoidance</button>
+                  <button type="button" class="tag">Energy drop</button>
+                </div>
+                <textarea class="journal-box" rows="6">I stayed near the work, but not inside it. I kept preparing instead of shipping the screen. The task needed to be smaller before lunch.</textarea>
+                <div class="actions">
+                  <button type="button" class="solid-btn" data-toast="Daily journal saved. Pattern signal updated.">Save Journal</button>
+                  <button type="button" class="ghost-btn">Quick mode</button>
+                </div>
+              </section>
+
+              <section class="paper-card">
+                <div class="topline">
+                  <span>Paper Journal Supervision</span>
+                  <span class="badge cold">Due Tomorrow</span>
+                </div>
+                <p>Tomorrow is a paper-journal day. The app will remind, supervise, and record completion.</p>
+                <div class="meta-pair single">
+                  <div>
+                    <small>Last completion</small>
+                    <strong>Apr 1 · 23:04</strong>
+                  </div>
+                </div>
+              </section>
+
+              <section class="emotion-strip">
+                <div class="panel-label">Recent Pattern</div>
+                <p>Avoidance appears most often when the mission is abstract after 20:00.</p>
+              </section>
+
+              <nav class="tabbar">
+                <a href="#today-card">Today</a>
+                <a href="#coach-card">Coach</a>
+                <a href="#journal-card" class="active">Journal</a>
+                <a href="#progress-card">Progress</a>
+              </nav>
+            </div>
+          </div>
+          <div class="caption">
+            <h3>Journal</h3>
+            <p>不是文艺记录页，而是情绪排毒和执行归因页，同时监管隔天纸质日记。</p>
+          </div>
+        </article>
+
+        <article class="phone-card" id="progress-card">
+          <div class="phone-frame">
+            <div class="status-bar">
+              <span>8:14</span>
+              <span>Progress</span>
+              <span>92%</span>
+            </div>
+            <div class="screen progress-screen">
+              <header class="screen-head">
+                <div>
+                  <p class="kicker">Outcome Before Vanity</p>
+                  <h2>Progress</h2>
+                </div>
+                <div class="chip dark-chip">
+                  <strong>WEEK 14</strong>
+                  <span>Live</span>
+                </div>
+              </header>
+
+              <section class="metrics-grid">
+                <div class="metric-card strong">
+                  <small>Visible Output Days</small>
+                  <strong>4 / 7</strong>
+                  <span>Yellow zone</span>
+                </div>
+                <div class="metric-card">
+                  <small>Foundation Stability</small>
+                  <strong>78</strong>
+                  <span>Core habits weighted</span>
+                </div>
+                <div class="metric-card">
+                  <small>Execution Funnel</small>
+                  <strong>71</strong>
+                  <span>Reminder -> Output</span>
+                </div>
+                <div class="metric-card">
+                  <small>Main-line Alignment</small>
+                  <strong>67%</strong>
+                  <span>Needs correction</span>
+                </div>
+              </section>
+
+              <section class="trend-card">
+                <div class="topline">
+                  <span>Weekly Trend</span>
+                  <span class="badge neutral">4 Weeks</span>
+                </div>
+                <div class="bar-chart">
+                  <div><span style="height: 48%"></span><small>W11</small></div>
+                  <div><span style="height: 62%"></span><small>W12</small></div>
+                  <div><span style="height: 72%"></span><small>W13</small></div>
+                  <div><span style="height: 57%"></span><small>W14</small></div>
+                </div>
+              </section>
+
+              <section class="insight-card">
+                <div class="panel-label">AI Insight</div>
+                <p>Your strongest support habit for side-project output is not podcast input. It is reading + earlier wind-down discipline.</p>
+              </section>
+
+              <nav class="tabbar">
+                <a href="#today-card">Today</a>
+                <a href="#coach-card">Coach</a>
+                <a href="#journal-card">Journal</a>
+                <a href="#progress-card" class="active">Progress</a>
+              </nav>
+            </div>
+          </div>
+          <div class="caption">
+            <h3>Progress</h3>
+            <p>先看结果，再看健康度，最后才看 AI insight。不是庆祝页，而是看控制面是否真的在改善。</p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div class="toast" id="prototype-toast" hidden></div>
+    <script type="module" src="/life-console-prototype.js"></script>
+  </body>
+</html>

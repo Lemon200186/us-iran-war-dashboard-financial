@@ -1,0 +1,95 @@
+{
+  "library_id": "life_console_quotes_v1_review_pool",
+  "version": "2026-04-02",
+  "source_library": "life_console_quotes_v1",
+  "selection_policy": {
+    "production_ready_only": false,
+    "status_filter": ["review_needed"]
+  },
+  "quotes": [
+    {
+      "quote_id": "en_se_002",
+      "text_surface": "While we are postponing, life speeds by.",
+      "text_full": "While we are postponing, life speeds by.",
+      "language": "en",
+      "author": "Seneca",
+      "source_work": "On the Shortness of Life",
+      "source_ref": "Chapter 1",
+      "source_type": "philosophy",
+      "scene_tags": ["drift_recovery", "honest_review"],
+      "tone_tags": ["severe", "disciplining"],
+      "strictness_level": 5,
+      "status": "review_needed"
+    },
+    {
+      "quote_id": "en_se_003",
+      "text_surface": "Begin at once to live, and count each separate day as a separate life.",
+      "text_full": "Begin at once to live, and count each separate day as a separate life.",
+      "language": "en",
+      "author": "Seneca",
+      "source_work": "Letters",
+      "source_ref": "Letter 101",
+      "source_type": "philosophy",
+      "scene_tags": ["start_day", "reset_tomorrow"],
+      "tone_tags": ["steady", "encouraging"],
+      "strictness_level": 2,
+      "status": "review_needed"
+    },
+    {
+      "quote_id": "en_em_001",
+      "text_surface": "Finish each day and be done with it.",
+      "text_full": "Finish each day and be done with it. You have done what you could.",
+      "language": "en",
+      "author": "Ralph Waldo Emerson",
+      "source_work": "Journals",
+      "source_ref": "commonly cited journal wording",
+      "source_type": "literature",
+      "scene_tags": ["honest_review", "reset_tomorrow"],
+      "tone_tags": ["steady", "resetting"],
+      "strictness_level": 2,
+      "status": "review_needed"
+    },
+    {
+      "quote_id": "zh_lu_002",
+      "text_surface": "欲速則不達。",
+      "text_full": "無欲速，無見小利。欲速則不達，見小利則大事不成。",
+      "language": "zh",
+      "author": "孔子",
+      "source_work": "《論語》",
+      "source_ref": "子路",
+      "source_type": "classical_chinese",
+      "scene_tags": ["start_day", "protect_line", "ship_today"],
+      "tone_tags": ["clear", "disciplining"],
+      "strictness_level": 4,
+      "status": "review_needed"
+    },
+    {
+      "quote_id": "zh_dx_001",
+      "text_surface": "苟日新，日日新，又日新。",
+      "text_full": "苟日新，日日新，又日新。",
+      "language": "zh",
+      "author": "《大學》",
+      "source_work": "《大學》",
+      "source_ref": "傳二章",
+      "source_type": "classical_chinese",
+      "scene_tags": ["start_day", "reset_tomorrow"],
+      "tone_tags": ["encouraging", "steady"],
+      "strictness_level": 2,
+      "status": "review_needed"
+    },
+    {
+      "quote_id": "zh_zy_001",
+      "text_surface": "凡事豫則立，不豫則廢。",
+      "text_full": "凡事豫則立，不豫則廢。",
+      "language": "zh",
+      "author": "《中庸》",
+      "source_work": "《禮記·中庸》",
+      "source_ref": "第二十章",
+      "source_type": "classical_chinese",
+      "scene_tags": ["start_day", "protect_line"],
+      "tone_tags": ["clear", "disciplining"],
+      "strictness_level": 3,
+      "status": "review_needed"
+    }
+  ]
+}

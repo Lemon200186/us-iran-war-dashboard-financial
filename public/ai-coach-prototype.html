@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Console AI Coach Prototype</title>
+    <link rel="stylesheet" href="/ai-coach-prototype.css" />
+  </head>
+  <body>
+    <div class="mist mist-left"></div>
+    <div class="mist mist-right"></div>
+
+    <main class="page-shell">
+      <header class="intro">
+        <p class="eyebrow">Private Command Room for Personal Control</p>
+        <h1>AI Coach Surfaces</h1>
+        <p class="intro-copy">
+          这不是一个聊天页，而是一组带有决策权威感的操盘界面。整体偏暖，控制区偏冷，主按钮有实体感，结论区像一份当日裁决书。
+        </p>
+        <div class="intro-pills">
+          <span>Private Command Room</span>
+          <span>Cold Risk Layer</span>
+          <span>Heavy Action Buttons</span>
+          <span>Verdict-Driven Review</span>
+        </div>
+      </header>
+
+      <section class="device-gallery">
+        <article class="device-card">
+          <div class="device-frame">
+            <div class="status-bar">
+              <span>9:41</span>
+              <span>Coach</span>
+              <span>86%</span>
+            </div>
+
+            <div class="screen coach-screen">
+              <header class="screen-header">
+                <div>
+                  <p class="section-kicker">AI Action Console</p>
+                  <h2>Coach</h2>
+                </div>
+                <div class="seal-chip">
+                  <strong>PRIORITY</strong>
+                  <span>Live</span>
+                </div>
+              </header>
+
+              <section class="command-deck">
+                <div class="deck-head">
+                  <span>Project Action</span>
+                  <span class="cold-badge">High Leverage</span>
+                </div>
+                <h3>Ship onboarding wireframe state 1</h3>
+                <p class="deck-copy">This is the fastest move that creates visible side-project progress today.</p>
+                <div class="meta-grid">
+                  <div>
+                    <small>Risk</small>
+                    <strong>Drifting into planning</strong>
+                  </div>
+                  <div>
+                    <small>Deadline</small>
+                    <strong>21:30</strong>
+                  </div>
+                </div>
+                <div class="command-actions">
+                  <button type="button" class="action-button" data-toast="Execution mode armed. Ship state 1 before exploring anything else.">Start Now</button>
+                  <button type="button" class="ghost-button" data-toggle="why-this-panel" aria-expanded="false">Why this</button>
+                </div>
+                <div class="why-this-panel" id="why-this-panel" hidden>
+                  <div class="panel-topline">
+                    <span>Why This Move</span>
+                    <span class="cold-badge">Result First</span>
+                  </div>
+                  <p>This action gives the highest side-project leverage today because it produces a visible artifact, reduces ambiguity, and keeps the mission shippable before 21:30.</p>
+                </div>
+                <button type="button" class="inline-trigger" data-jump="takeover-anchor">Take Over Today</button>
+              </section>
+
+              <section class="floor-deck">
+                <div class="deck-head">
+                  <span>Floor Action</span>
+                  <span class="warm-badge">Protect</span>
+                </div>
+                <h3>Protect the 23:00 sleep boundary</h3>
+                <p class="deck-copy">If this slips, tomorrow starts weaker and the whole system loses edge.</p>
+                <div class="floor-footer">
+                  <span>Status: at risk</span>
+                  <button type="button" class="mini-button">Start routine</button>
+                </div>
+              </section>
+
+              <section class="dashboard-pair">
+                <div class="glass-card">
+                  <div class="card-label">AI Judgement</div>
+                  <ul>
+                    <li>Task size is slightly too large.</li>
+                    <li>Risk of spending effort around the mission.</li>
+                    <li>Best move is still to ship one state.</li>
+                  </ul>
+                </div>
+                <div class="glass-card">
+                  <div class="card-label">Today Record</div>
+                  <ul>
+                    <li>Mission: not started</li>
+                    <li>Exercise: done</li>
+                    <li>Reading: pending</li>
+                    <li>Output logged: 0</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section class="takeover-panel">
+                <div class="panel-topline">
+                  <span>Take Over Today</span>
+                  <span class="signal-dot"></span>
+                </div>
+                <p>You are better off entering Take Over Today now.</p>
+                <button type="button" class="cold-button" data-jump="takeover-anchor">Enter Take Over Today</button>
+              </section>
+            </div>
+          </div>
+          <div class="caption">
+            <h3>Coach Page</h3>
+            <p>顶部是带权威感的行动控制台，中段是 AI 判断与今日记录的并列 dashboard，底部只保留一个克制但明确的接管建议。</p>
+          </div>
+        </article>
+
+        <article class="device-card">
+          <div id="takeover-anchor"></div>
+          <div class="device-frame">
+            <div class="status-bar">
+              <span>11:16</span>
+              <span>Take Over</span>
+              <span>79%</span>
+            </div>
+
+            <div class="screen takeover-screen">
+              <header class="screen-header">
+                <div>
+                  <p class="section-kicker">Controlled Recovery</p>
+                  <h2>Take Over Today</h2>
+                </div>
+                <div class="seal-chip danger-chip">
+                  <strong>CONTROL</strong>
+                  <span>Active</span>
+                </div>
+              </header>
+
+              <section class="verdict-banner">
+                <strong>You are better off entering takeover mode now.</strong>
+                <p>The day is still recoverable, but only if the scope collapses now.</p>
+              </section>
+
+              <section class="diagnosis-card">
+                <div class="card-label">Diagnosis</div>
+                <h3>Task problem first</h3>
+                <p>Today's mission is too large for your current state. Rhythm pressure is secondary.</p>
+              </section>
+
+              <section class="takeover-command">
+                <div class="command-topline">
+                  <span>Minimum Visible Deliverable</span>
+                  <span class="cold-badge">Today Only</span>
+                </div>
+                <div class="command-block">
+                  <small>Command</small>
+                  <p>Ship one onboarding wireframe state. Do not expand scope.</p>
+                </div>
+                <div class="command-block">
+                  <small>Reason</small>
+                  <p>Restore output first. Do not rescue the fantasy version of the plan.</p>
+                </div>
+                <div class="command-block">
+                  <small>Done When</small>
+                  <ul>
+                    <li>One screen is finished</li>
+                    <li>Three UI states are labeled</li>
+                    <li>Saved before 21:30</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section class="floor-list">
+                <div class="card-label">Today's Floor</div>
+                <ul>
+                  <li>Protect sleep boundary</li>
+                  <li>Complete in-app journal tonight</li>
+                </ul>
+              </section>
+
+              <div class="command-actions dual-actions">
+                <button type="button" class="action-button" data-toast="Takeover active. Today's acceptable win is now locked.">Start This Version</button>
+                <button type="button" class="ghost-button" data-compress>Compress Once More</button>
+              </div>
+            </div>
+          </div>
+          <div class="caption">
+            <h3>Take Over Today</h3>
+            <p>页面以状态判断开场，中央是一张命令卡，直接把混乱的一天压缩成一个仍然有可见结果的版本。</p>
+          </div>
+        </article>
+
+        <article class="device-card">
+          <div class="device-frame">
+            <div class="status-bar">
+              <span>22:38</span>
+              <span>Review</span>
+              <span>68%</span>
+            </div>
+
+            <div class="screen review-screen">
+              <header class="screen-header review-header">
+                <div>
+                  <p class="section-kicker">End-of-Day Verdict</p>
+                  <h2>Review</h2>
+                </div>
+                <div class="verdict-chip">
+                  <strong>Partial Day</strong>
+                  <span>Output not closed</span>
+                </div>
+              </header>
+
+              <section class="judgement-sheet">
+                <div class="sheet-topline">
+                  <span>Day Verdict</span>
+                  <span>Filed 22:38</span>
+                </div>
+                <h3 data-review-headline>Busy day. Incomplete mission.</h3>
+                <p data-review-copy>The day stayed active, but the key mission remained too large and never converted into visible output.</p>
+              </section>
+
+              <section class="review-grid">
+                <div class="review-card">
+                  <div class="card-label">Failure Type</div>
+                  <strong>Primary: task design failure</strong>
+                  <p>Secondary: mild avoidance once scope stayed abstract.</p>
+                </div>
+                <div class="review-card">
+                  <div class="card-label">Tomorrow Change</div>
+                  <strong>One screen, not the whole flow.</strong>
+                  <p>Tomorrow's mission must be compressed before noon.</p>
+                </div>
+              </section>
+
+              <section class="mainline-check">
+                <div class="card-label">Main-line Check</div>
+                <p>Was the most important thing you did today still the thing you most needed to do?</p>
+                <div class="binary-row">
+                  <button type="button" class="binary-button active" data-review-answer="yes">Yes</button>
+                  <button type="button" class="binary-button" data-review-answer="no">No</button>
+                </div>
+                <p class="answer-feedback" data-answer-feedback>Alignment held. Tomorrow only needs scope correction.</p>
+              </section>
+
+              <section class="quote-plaque">
+                <div class="card-label">Closing Quote</div>
+                <blockquote>“Put an end once for all to this discussion of what a good man should be, and be one.”</blockquote>
+                <span>Marcus Aurelius</span>
+              </section>
+            </div>
+          </div>
+          <div class="caption">
+            <h3>End-of-Day Review</h3>
+            <p>顶部像一份裁决书，中段是失败归因与明日修正规则，底部才给一条收束型 quote，帮助你稳定结束这一天。</p>
+          </div>
+        </article>
+      </section>
+    </main>
+    <div class="toast" id="prototype-toast" hidden></div>
+    <script type="module" src="/ai-coach-prototype.js"></script>
+  </body>
+</html>
