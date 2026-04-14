@@ -337,10 +337,12 @@ function buildHistoryPoints(series, digits = 3) {
 }
 
 function buildCumulativeCasualtySeries(conflict, snapshotDate) {
-  const numericRows = (conflict.casualties || []).map((item) => ({
-    killed: parseNumber(item.killed),
-    injured: parseNumber(item.injured),
-  }));
+  const numericRows = (conflict.casualties || [])
+    .filter(Boolean)
+    .map((item) => ({
+      killed: parseNumber(item?.killed),
+      injured: parseNumber(item?.injured),
+    }));
   const latestKnownTotal = numericRows.reduce(
     (sum, row) => sum + (Number.isFinite(row.killed) ? row.killed : 0) + (Number.isFinite(row.injured) ? row.injured : 0),
     0
@@ -380,7 +382,7 @@ function buildCountryCasualtySeries(conflict, news, snapshotDate) {
   ];
 
   return countryMap.map((country) => {
-    const row = (conflict.casualties || []).find((item) => country.match.test(item.country));
+    const row = (conflict.casualties || []).filter(Boolean).find((item) => country.match.test(item?.country || ""));
     const total = Number.isFinite(parseNumber(row?.killed)) ? parseNumber(row.killed) : 0;
     const curatedPoints = (CASUALTY_CONFIRMED_CHECKPOINTS[country.key] || [])
       .filter((point) => !snapshotDate || point.date <= snapshotDate)
@@ -921,6 +923,10 @@ function parseCasualtySection(text) {
   return results;
 }
 
+function sanitizeCasualtyRows(rows) {
+  return (rows || []).filter((item) => item && (item.country || item.killed || item.injured));
+}
+
 async function getConflictData(news, snapshotDate) {
   const liveTrackerUrl =
     "https://www.aljazeera.com/news/2026/3/1/us-israel-attacks-on-iran-death-toll-and-injuries-live-tracker";
@@ -960,7 +966,9 @@ async function getConflictData(news, snapshotDate) {
             gulfDead: parseNumber(totalMatch[4]),
           }
         : FALLBACK_TOTAL_SUMMARY,
-      casualties: casualties.length ? casualties : news.casualtyMentions.length ? news.casualtyMentions : fallbackCasualtyRows,
+      casualties: sanitizeCasualtyRows(
+        casualties.length ? casualties : news.casualtyMentions.length ? news.casualtyMentions : fallbackCasualtyRows
+      ),
       overview,
       timeline: (news.timeline.length ? news.timeline : FALLBACK_TIMELINE).filter(
         (item) => !snapshotDate || item.date <= snapshotDate
@@ -975,7 +983,7 @@ async function getConflictData(news, snapshotDate) {
       startDate: START_DATE,
       startDateSource: START_DATE_SOURCE,
       totalSummary: FALLBACK_TOTAL_SUMMARY,
-      casualties: news.casualtyMentions.length ? news.casualtyMentions : fallbackCasualtyRows,
+      casualties: sanitizeCasualtyRows(news.casualtyMentions.length ? news.casualtyMentions : fallbackCasualtyRows),
       overview:
         "2026-02-28 起，美以对伊朗发动打击，随后伊朗对以色列及海湾地区目标实施报复。当前伤亡页抓取失败，已退回到最近一次已知公开口径。",
       timeline: (news.timeline.length ? news.timeline : FALLBACK_TIMELINE).filter(
