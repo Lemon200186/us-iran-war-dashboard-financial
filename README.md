@@ -27,6 +27,22 @@ npm start
 - 可追加 `&autoprint=1` 自动调起打印为 PDF
 - 可追加 `&autocapture=1` 自动导出 PNG 截图
 
+## 公网部署
+
+仓库已经包含 `render.yaml`，可以直接部署到 Render。
+
+1. 登录 [Render](https://render.com/)
+2. 选择 `New` -> `Blueprint`
+3. 连接 GitHub 仓库 `Lemon200186/us-iran-war-dashboard-financial`
+4. 确认创建 Web Service
+5. 部署完成后会得到一个公开可访问的 `onrender.com` 地址
+
+默认部署配置：
+
+- `npm install`
+- `npm start`
+- `HOST=0.0.0.0`
+
 ## 数据来源
 
 - FRED
