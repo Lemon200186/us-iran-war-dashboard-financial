@@ -383,7 +383,7 @@ function buildCountryCasualtySeries(conflict, news, snapshotDate) {
 
   return countryMap.map((country) => {
     const row = (conflict.casualties || []).filter(Boolean).find((item) => country.match.test(item?.country || ""));
-    const total = Number.isFinite(parseNumber(row?.killed)) ? parseNumber(row.killed) : 0;
+    const total = Number.isFinite(parseNumber(row?.killed)) ? parseNumber(row?.killed) : 0;
     const curatedPoints = (CASUALTY_CONFIRMED_CHECKPOINTS[country.key] || [])
       .filter((point) => !snapshotDate || point.date <= snapshotDate)
       .map((point) => ({
@@ -1206,7 +1206,7 @@ export async function buildDashboardPayload(snapshotDate) {
           startDate: START_DATE,
           startDateSource: START_DATE_SOURCE,
           totalSummary: FALLBACK_TOTAL_SUMMARY,
-          casualties: news.casualtyMentions,
+          casualties: sanitizeCasualtyRows(news.casualtyMentions),
           overview: "冲突摘要暂时不可用，请稍后刷新。",
           timeline: FALLBACK_TIMELINE,
           sources: [],
