@@ -1212,6 +1212,18 @@ export async function buildDashboardPayload(snapshotDate) {
           sources: [],
         };
   const personalMonitor = buildPersonalFundMonitor(funds, markets, news, normalizedDate);
+  let casualtyCurve = [];
+  let casualtySeries = [];
+  let casualtyBuildWarning = null;
+
+  try {
+    casualtyCurve = buildCumulativeCasualtySeries(conflict, normalizedDate);
+    casualtySeries = buildCountryCasualtySeries(conflict, news, normalizedDate);
+  } catch (error) {
+    casualtyBuildWarning = `伤亡曲线构建失败，已退回到无图模式：${error.message}`;
+    casualtyCurve = [];
+    casualtySeries = [];
+  }
 
   return {
     generatedAt: new Date().toISOString(),
@@ -1226,8 +1238,8 @@ export async function buildDashboardPayload(snapshotDate) {
       actions: news.actions,
     },
     conflict,
-    casualtyCurve: buildCumulativeCasualtySeries(conflict, normalizedDate),
-    casualtySeries: buildCountryCasualtySeries(conflict, news, normalizedDate),
+    casualtyCurve,
+    casualtySeries,
     insights: explainMarketMoves(markets, funds, news, conflict),
     methodology: [
       "WTI 原油与美债收益率来自 FRED 日线数据；国际金价优先来自 GiaVang.now 的 XAU/USD 历史序列，失败时回退到 FreeGoldAPI。",
@@ -1241,6 +1253,7 @@ export async function buildDashboardPayload(snapshotDate) {
       fundsResult.status === "rejected" ? `基金数据部分抓取失败：${fundsResult.reason.message}` : null,
       newsResult.status === "rejected" ? `新闻数据部分抓取失败：${newsResult.reason.message}` : null,
       conflict.warning || null,
+      casualtyBuildWarning,
     ].filter(Boolean),
   };
 }
