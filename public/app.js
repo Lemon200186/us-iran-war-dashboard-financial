@@ -375,16 +375,19 @@ function renderFunds(data) {
 
 function renderCasualties(data) {
   const selection = getPanelSelection("casualties");
+  const casualtyRows = (data.conflict?.casualties || []).filter(
+    (item) => item && (item.country || item.killed || item.injured)
+  );
   setHtml(
     casualtyBody,
-    data.conflict.casualties.length
-      ? data.conflict.casualties
+    casualtyRows.length
+      ? casualtyRows
           .map(
             (item) => `
               <tr>
-                <td>${item.country}</td>
-                <td>${item.killed}</td>
-                <td>${item.injured}</td>
+                <td>${item.country || "待核实"}</td>
+                <td>${item.killed || "待核实"}</td>
+                <td>${item.injured || "待核实"}</td>
               </tr>
             `
           )
