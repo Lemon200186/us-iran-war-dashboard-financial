@@ -208,6 +208,16 @@ function json(data, status = 200) {
   };
 }
 
+function buildHealthPayload() {
+  return {
+    ok: true,
+    service: "us-iran-war-dashboard-financial",
+    timestamp: new Date().toISOString(),
+    uptimeSeconds: Math.round(process.uptime()),
+    refreshIntervalMs: 60 * 1000,
+  };
+}
+
 function getContentType(filePath) {
   if (filePath.endsWith(".html")) return "text/html; charset=utf-8";
   if (filePath.endsWith(".css")) return "text/css; charset=utf-8";
@@ -1278,6 +1288,13 @@ function createServer() {
   return http.createServer(async (req, res) => {
     try {
       const requestUrl = new URL(req.url, `http://${req.headers.host}`);
+
+      if (requestUrl.pathname === "/healthz") {
+        const response = json(buildHealthPayload());
+        res.writeHead(response.status, response.headers);
+        res.end(response.body);
+        return;
+      }
 
       if (requestUrl.pathname === "/api/dashboard") {
         const payload = await buildDashboardPayload(requestUrl.searchParams.get("date"));

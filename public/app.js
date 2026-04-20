@@ -35,6 +35,7 @@ const warningPanel = document.querySelector("#warning-panel");
 const warningList = document.querySelector("#warning-list");
 const refreshCountdown = document.querySelector("#refresh-countdown");
 const refreshButton = document.querySelector("#refresh-button");
+const healthStatus = document.querySelector("#health-status");
 const reportLink = document.querySelector('a[href="/report.html"]');
 const timelineList = document.querySelector("#timeline-list");
 const casualtyCurve = document.querySelector("#casualty-curve");
@@ -45,6 +46,7 @@ const timelineCloseButton = document.querySelector("[data-timeline-close]");
 let nextRefreshAt = Date.now() + 60_000;
 let dashboardState = null;
 let selectedTimelineDate = "";
+let runtimeWarnings = [];
 
 const panelState = {
   markets: { mode: "conflict", start: "", end: "" },
@@ -199,6 +201,143 @@ function renderWarnings(warnings) {
 
   warningPanel.hidden = true;
   warningList.innerHTML = "";
+}
+
+function resetRuntimeWarnings() {
+  runtimeWarnings = [];
+}
+
+function pushRuntimeWarning(message) {
+  if (!message || runtimeWarnings.includes(message)) return;
+  runtimeWarnings.push(message);
+}
+
+function combinedWarnings(data) {
+  return [...(data?.warnings || []), ...runtimeWarnings];
+}
+
+function safeRenderSection(name, renderFn, fallbackFn = null) {
+  try {
+    renderFn();
+  } catch (error) {
+    pushRuntimeWarning(`${name}渲染失败，已降级显示：${error.message}`);
+    fallbackFn?.(error);
+  }
+}
+
+function setHealthState(state, text) {
+  if (!healthStatus) return;
+  healthStatus.dataset.state = state;
+  healthStatus.textContent = text;
+}
+
+async function refreshHealthStatus() {
+  try {
+    const response = await fetch("/healthz", { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const payload = await response.json();
+    setHealthState("ok", `服务正常 · ${formatDateTime(payload.timestamp)}`);
+  } catch (error) {
+    setHealthState("degraded", "服务检查失败");
+    pushRuntimeWarning(`健康检查未通过：${error.message}`);
+  }
+}
+
+function renderMarketFallback(message) {
+  setHtml(
+    marketGrid,
+    `
+      <article class="market-card">
+        <span class="label">金融与利率波动</span>
+        <p class="error">当前无法完整渲染金融与利率面板。</p>
+        <p class="error-subtle">${message}</p>
+      </article>
+    `
+  );
+}
+
+function renderFundFallback(message) {
+  setHtml(
+    fundGrid,
+    `
+      <article class="fund-card">
+        <span class="label">基金监控</span>
+        <p class="error">当前无法完整渲染基金监控面板。</p>
+        <p class="error-subtle">${message}</p>
+      </article>
+    `
+  );
+}
+
+function renderCasualtyFallback(message) {
+  setHtml(casualtyCurve, `<div class="error">伤亡曲线暂时不可用。</div><p class="error-subtle">${message}</p>`);
+  setHtml(
+    casualtyBody,
+    `<tr><td colspan="3">伤亡明细暂时不可用：${message}。页面保留其余模块，稍后会自动重试。</td></tr>`
+  );
+}
+
+function renderTimelineFallback(message) {
+  setHtml(
+    timelineList,
+    `<article class="timeline-item"><div class="timeline-content"><p class="error">关键时间线暂时不可用。</p><p class="error-subtle">${message}</p></div></article>`
+  );
+  if (timelineModalList) {
+    setHtml(
+      timelineModalList,
+      `<article class="timeline-item"><div class="timeline-content"><p class="error">完整时间线暂时不可用。</p><p class="error-subtle">${message}</p></div></article>`
+    );
+  }
+}
+
+function renderActionsFallback(message) {
+  setHtml(
+    actionList,
+    `<article class="action-item"><p class="error">关键动作暂时不可用。</p><p class="error-subtle">${message}</p></article>`
+  );
+}
+
+function renderNewsFallback(message) {
+  setHtml(
+    newsList,
+    `<article class="news-item"><p class="error">关键相关新闻暂时不可用。</p><p class="error-subtle">${message}</p></article>`
+  );
+}
+
+function renderMethodFallback(message) {
+  setHtml(methodList, `<li>方法与口径说明暂时不可用：${message}</li>`);
+}
+
+function renderSummaryFallback(message = "冲突总览暂时不可用。") {
+  overviewText.textContent = message;
+  setHtml(summaryGrid, `<article class="stat-card"><span>状态</span><strong>待重试</strong></article>`);
+  setHtml(conflictSources, "");
+  startSourceLink.removeAttribute("href");
+  startSourceLink.textContent = "起点来源暂不可用";
+}
+
+function renderInsightsFallback(message) {
+  setHtml(
+    insightList,
+    `<article class="insight-item"><span class="tag">解释层</span><p>波动原因分析暂时不可用。</p><p class="error-subtle">${message}</p></article>`
+  );
+}
+
+function renderBootstrapFallback(message) {
+  generatedAt.textContent = "-";
+  startDate.textContent = "-";
+  nextRefreshAt = Date.now() + 60_000;
+  renderSummaryFallback(`主数据暂时不可达：${message}。页面会在下一次自动刷新时重试。`);
+  renderMarketFallback(message);
+  renderFundFallback(message);
+  renderCasualtyFallback(message);
+  renderTimelineFallback(message);
+  renderActionsFallback(message);
+  renderNewsFallback(message);
+  renderInsightsFallback(message);
+  renderMethodFallback(message);
 }
 
 function renderSummary(data) {
@@ -488,86 +627,116 @@ function renderInsights(data) {
 }
 
 function renderStaticSections(data) {
-  generatedAt.textContent = formatDateTime(data.generatedAt);
-  startDate.textContent = data.conflict.startDate;
-  startSourceLink.href = data.conflict.startDateSource.url;
-  startSourceLink.textContent = data.conflict.startDateSource.label;
-  overviewText.textContent = data.conflict.overview;
   nextRefreshAt = Date.now() + (data.refreshIntervalMs || 60_000);
+  safeRenderSection("顶部摘要", () => {
+    generatedAt.textContent = formatDateTime(data.generatedAt);
+    startDate.textContent = data.conflict.startDate;
+    startSourceLink.href = data.conflict.startDateSource.url;
+    startSourceLink.textContent = data.conflict.startDateSource.label;
+  });
 
-  renderWarnings(data.warnings);
-  renderSummary(data);
+  safeRenderSection("战争总览", () => {
+    overviewText.textContent = data.conflict.overview;
+    renderSummary(data);
+    setHtml(
+      conflictSources,
+      data.conflict.sources
+        .map(
+          (source) => `
+            <a class="source-pill" href="${source.url}" target="_blank" rel="noreferrer">${source.label}</a>
+          `
+        )
+        .join("")
+    );
+  }, (error) => renderSummaryFallback(error.message));
 
-  setHtml(
-    conflictSources,
-    data.conflict.sources
-      .map(
-        (source) => `
-          <a class="source-pill" href="${source.url}" target="_blank" rel="noreferrer">${source.label}</a>
-        `
-      )
-      .join("")
-  );
+  safeRenderSection("关键动作", () => {
+    setHtml(
+      actionList,
+      data.news.actions.length
+        ? data.news.actions
+            .map(
+              (item) => `
+                <article class="action-item">
+                  <span class="tag">${item.actor}</span>
+                  <p><a href="${item.link}" target="_blank" rel="noreferrer">${item.title}</a></p>
+                  <div class="meta-line"><span>${item.source}</span><span>${formatDateTime(item.publishedAt)}</span></div>
+                </article>
+              `
+            )
+            .join("")
+        : `<article class="action-item"><p>当前未抓到动作类新闻，请稍后刷新。</p></article>`
+    );
+  }, (error) => renderActionsFallback(error.message));
 
-  setHtml(
-    actionList,
-    data.news.actions.length
-      ? data.news.actions
-          .map(
-            (item) => `
-              <article class="action-item">
-                <span class="tag">${item.actor}</span>
-                <p><a href="${item.link}" target="_blank" rel="noreferrer">${item.title}</a></p>
-                <div class="meta-line"><span>${item.source}</span><span>${formatDateTime(item.publishedAt)}</span></div>
-              </article>
-            `
-          )
-          .join("")
-      : `<article class="action-item"><p>当前未抓到动作类新闻，请稍后刷新。</p></article>`
-  );
+  safeRenderSection("关键新闻", () => {
+    setHtml(
+      newsList,
+      data.news.top5.length
+        ? data.news.top5
+            .map(
+              (item) => `
+                <article class="news-item">
+                  <header>
+                    <span>${item.source}</span>
+                    <span>${formatDateTime(item.publishedAt)}</span>
+                  </header>
+                  <p><a href="${item.link}" target="_blank" rel="noreferrer">${item.title}</a></p>
+                </article>
+              `
+            )
+            .join("")
+        : `<article class="news-item"><p>当前未抓到 TOP5 新闻，可能是 RSS 源暂时不可达。</p></article>`
+    );
+  }, (error) => renderNewsFallback(error.message));
 
-  setHtml(
-    newsList,
-    data.news.top5.length
-      ? data.news.top5
-          .map(
-            (item) => `
-              <article class="news-item">
-                <header>
-                  <span>${item.source}</span>
-                  <span>${formatDateTime(item.publishedAt)}</span>
-                </header>
-                <p><a href="${item.link}" target="_blank" rel="noreferrer">${item.title}</a></p>
-              </article>
-            `
-          )
-          .join("")
-      : `<article class="news-item"><p>当前未抓到 TOP5 新闻，可能是 RSS 源暂时不可达。</p></article>`
-  );
+  safeRenderSection("方法与口径", () => {
+    setHtml(methodList, data.methodology.map((item) => `<li>${item}</li>`).join(""));
+  }, (error) => renderMethodFallback(error.message));
 
-  setHtml(methodList, data.methodology.map((item) => `<li>${item}</li>`).join(""));
-  renderInsights(data);
+  safeRenderSection("波动原因分析", () => {
+    renderInsights(data);
+  }, (error) => renderInsightsFallback(error.message));
 }
 
 function renderDynamicSections() {
   if (!dashboardState) return;
-  PANEL_KEYS.forEach((panelKey) => syncPanelControls(panelKey, dashboardState));
-  renderMarkets(dashboardState);
-  renderFunds(dashboardState);
-  renderCasualties(dashboardState);
-  renderTimeline(dashboardState.conflict.timeline || []);
-  bindSparklineInteractivity(document);
-  bindSourceDrawer(document);
+  safeRenderSection("面板时间控件", () => {
+    PANEL_KEYS.forEach((panelKey) => syncPanelControls(panelKey, dashboardState));
+  });
+  safeRenderSection("金融与利率波动", () => renderMarkets(dashboardState), (error) => renderMarketFallback(error.message));
+  safeRenderSection("基金监控", () => renderFunds(dashboardState), (error) => renderFundFallback(error.message));
+  safeRenderSection("伤亡口径", () => renderCasualties(dashboardState), (error) => renderCasualtyFallback(error.message));
+  safeRenderSection("关键时间线", () => renderTimeline(dashboardState.conflict.timeline || []), (error) => renderTimelineFallback(error.message));
+  safeRenderSection("图表交互", () => {
+    bindSparklineInteractivity(document);
+    bindSourceDrawer(document);
+  });
+  renderWarnings(combinedWarnings(dashboardState));
   syncUiUrl();
 }
 
 async function loadDashboard() {
+  resetRuntimeWarnings();
   try {
-    dashboardState = await fetchDashboardData();
+    const nextState = await fetchDashboardData();
+    dashboardState = nextState;
     renderStaticSections(dashboardState);
     renderDynamicSections();
+    await refreshHealthStatus();
   } catch (error) {
-    document.querySelector(".dashboard").innerHTML = `<div class="panel wide"><p class="error">${error.message}</p></div>`;
+    pushRuntimeWarning(
+      dashboardState
+        ? `主数据刷新失败，页面已保留上一次成功内容：${error.message}`
+        : `主数据刷新失败：${error.message}`
+    );
+    if (dashboardState) {
+      renderWarnings(combinedWarnings(dashboardState));
+    } else {
+      renderBootstrapFallback(error.message);
+      renderWarnings(combinedWarnings({ warnings: [] }));
+    }
+    setHealthState("degraded", "服务降级中");
   }
 }
 

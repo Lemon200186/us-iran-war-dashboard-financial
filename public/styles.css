@@ -196,6 +196,21 @@ h1 {
   font-size: 13px;
 }
 
+.status-pill[data-state="ok"] {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.status-pill[data-state="degraded"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.status-pill[data-state="checking"] {
+  background: var(--navy-soft);
+  color: var(--ink);
+}
+
 .dashboard,
 .report-canvas {
   display: grid;
@@ -871,6 +886,13 @@ thead th {
   border-radius: 18px;
   background: rgba(157, 42, 42, 0.08);
   color: var(--accent);
+}
+
+.error-subtle {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .report-shell {
