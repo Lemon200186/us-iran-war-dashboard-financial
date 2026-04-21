@@ -197,6 +197,22 @@ const CASUALTY_CONFIRMED_CHECKPOINTS = {
   ],
 };
 
+let lastHealthSnapshot = {
+  ok: true,
+  service: "us-iran-war-dashboard-financial",
+  timestamp: new Date().toISOString(),
+  uptimeSeconds: 0,
+  refreshIntervalMs: 60 * 1000,
+  checks: {
+    dashboard: { status: "waiting", detail: "尚未生成首个看板快照" },
+    markets: { status: "waiting", detail: "等待首次抓取" },
+    funds: { status: "waiting", detail: "等待首次抓取" },
+    news: { status: "waiting", detail: "等待首次抓取" },
+    conflict: { status: "waiting", detail: "等待首次抓取" },
+    casualtyCharts: { status: "waiting", detail: "等待首次构建" },
+  },
+};
+
 function json(data, status = 200) {
   return {
     status,
@@ -210,11 +226,27 @@ function json(data, status = 200) {
 
 function buildHealthPayload() {
   return {
-    ok: true,
-    service: "us-iran-war-dashboard-financial",
+    ...lastHealthSnapshot,
     timestamp: new Date().toISOString(),
     uptimeSeconds: Math.round(process.uptime()),
-    refreshIntervalMs: 60 * 1000,
+  };
+}
+
+function createCheck(status, detail) {
+  return { status, detail };
+}
+
+function snapshotOk(checks) {
+  return Object.values(checks).every((check) => check.status !== "down");
+}
+
+function updateHealthSnapshot(checks) {
+  lastHealthSnapshot = {
+    ...lastHealthSnapshot,
+    ok: snapshotOk(checks),
+    timestamp: new Date().toISOString(),
+    uptimeSeconds: Math.round(process.uptime()),
+    checks,
   };
 }
 
@@ -1234,6 +1266,29 @@ export async function buildDashboardPayload(snapshotDate) {
     casualtyCurve = [];
     casualtySeries = [];
   }
+
+  updateHealthSnapshot({
+    dashboard: createCheck("ok", normalizedDate ? `已生成 ${normalizedDate} 快照` : "实时看板生成成功"),
+    markets:
+      marketsResult.status === "fulfilled"
+        ? createCheck("ok", `返回 ${markets.length} 个市场项`)
+        : createCheck("down", marketsResult.reason.message),
+    funds:
+      fundsResult.status === "fulfilled"
+        ? createCheck("ok", `返回 ${funds.length} 个基金项`)
+        : createCheck("down", fundsResult.reason.message),
+    news:
+      newsResult.status === "fulfilled"
+        ? createCheck("ok", `返回 ${news.top5.length} 条 TOP 新闻`)
+        : createCheck("down", newsResult.reason.message),
+    conflict:
+      conflictResult[0].status === "fulfilled"
+        ? createCheck("ok", `返回 ${conflict.timeline?.length || 0} 条时间线`)
+        : createCheck("degraded", "冲突总览已回退到兜底口径"),
+    casualtyCharts: casualtyBuildWarning
+      ? createCheck("degraded", casualtyBuildWarning)
+      : createCheck("ok", `累计曲线 ${casualtySeries.length} 条序列构建成功`),
+  });
 
   return {
     generatedAt: new Date().toISOString(),
