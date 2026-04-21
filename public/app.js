@@ -638,16 +638,7 @@ function renderStaticSections(data) {
   safeRenderSection("战争总览", () => {
     overviewText.textContent = data.conflict.overview;
     renderSummary(data);
-    setHtml(
-      conflictSources,
-      data.conflict.sources
-        .map(
-          (source) => `
-            <a class="source-pill" href="${source.url}" target="_blank" rel="noreferrer">${source.label}</a>
-          `
-        )
-        .join("")
-    );
+    setHtml(conflictSources, "");
   }, (error) => renderSummaryFallback(error.message));
 
   safeRenderSection("关键动作", () => {
